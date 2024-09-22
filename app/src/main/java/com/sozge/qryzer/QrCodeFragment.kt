@@ -7,16 +7,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.navigation.Navigation
+import com.google.android.material.snackbar.Snackbar
 import com.sozge.qryzer.databinding.FragmentQrCodeBinding
 
 class QrCodeFragment : Fragment() {
     private var _binding: FragmentQrCodeBinding? = null
     private val binding get() = _binding!!
 
-    companion object {
-        private const val CAMERA_PERMİSSİON_REQUEST_CODE = 123
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,24 +35,62 @@ class QrCodeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.imageView.setOnClickListener{appIconClicked(it)}
 
-        checkForPermission()
-    }
-
-    private fun checkForPermission() {
-        if(ActivityCompat.checkSelfPermission(requireContext(),android.Manifest.permission.CAMERA)==PackageManager.PERMISSION_GRANTED) {
-            scanerFragment()
-        }else
-            requestThePermission()
 
     }
-    private fun requestThePermission(){
-        ActivityCompat.requestPermissions(
-            requireContext() as Activity, arrayOf(android.Manifest.permission.CAMERA),
-            CAMERA_PERMİSSİON_REQUEST_CODE)
+
+    private fun appIconClicked(view: View){
+
+        if(ContextCompat.checkSelfPermission(requireContext(),android.Manifest.permission.CAMERA)
+            != PackageManager.PERMISSION_GRANTED) {
+
+            requestCameraPermission()
+
+        } else {
+
+            val action =  QrCodeFragmentDirections.actionQrCodeFragmentToScanerFragment()
+            Navigation.findNavController(requireView()).navigate(action)
+
+        }
     }
 
-    private fun scanerFragment(){
 
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+
+
+        if (isGranted) {
+            Toast.makeText(requireContext(), "Permission granted!", Toast.LENGTH_LONG).show()
+            val action = QrCodeFragmentDirections.actionQrCodeFragmentToScanerFragment()
+            Navigation.findNavController(requireView()).navigate(action)
+
+        } else {
+
+            Snackbar.make(View(requireContext()), "permission denied!", Snackbar.LENGTH_LONG).show()
+        }
     }
+
+    private fun requestCameraPermission(){
+
+        if(ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),android.Manifest.permission.CAMERA)){
+
+            requestPermissionLauncher.launch(android.Manifest.permission.CAMERA)
+        } else{
+
+            requestPermissionLauncher.launch(android.Manifest.permission.CAMERA)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+
+
+
+
+
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/scanMenuIcon"
+        android:title="scan"
+        android:icon="@drawable/qr"/>
+
+    <item
+        android:id="@+id/recentMenuIcon"
+        android:title="recent scanned"
+        android:icon="@drawable/history"/>
+
+    <item
+        android:id="@+id/favoriteMenuIcon"
+        android:title="favourites"
+        android:icon="@drawable/send"/>
+
+    <item
+        android:id="@+id/flashMenuIcon"
+        android:title="flash"
+        android:icon="@drawable/flash"/>
+
+</menu>

@@ -9,5 +9,14 @@
         android:id="@+id/qrCodeFragment"
         android:name="com.sozge.qryzer.QrCodeFragment"
         android:label="fragment_qr_code"
-        tools:layout="@layout/fragment_qr_code" />
+        tools:layout="@layout/fragment_qr_code" >
+        <action
+            android:id="@+id/action_qrCodeFragment_to_scanerFragment"
+            app:destination="@id/scanerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/scanerFragment"
+        android:name="com.sozge.qryzer.ScanerFragment"
+        android:label="fragment_scaner"
+        tools:layout="@layout/fragment_scaner" />
 </navigation>
