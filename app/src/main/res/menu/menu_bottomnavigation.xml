@@ -4,6 +4,7 @@
     <item
         android:id="@+id/scanMenuIcon"
         android:title="scan"
+
         android:icon="@drawable/qr"/>
 
     <item
@@ -13,7 +14,7 @@
 
     <item
         android:id="@+id/favoriteMenuIcon"
-        android:title="favourites"
+        android:title="favorites"
         android:icon="@drawable/send"/>
 
     <item
